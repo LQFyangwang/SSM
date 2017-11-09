@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/processdef">
+  <process id="leave_process" name="leave_process" isExecutable="true">
+    <documentation>请假流程</documentation>
+    <startEvent id="startEvent" name="开始"></startEvent>
+    <userTask id="emp_submit" name="员工提交请假条"></userTask>
+    <userTask id="mgr_check" name="经理审核"></userTask>
+    <endEvent id="endEvent" name="结束"></endEvent>
+    <sequenceFlow id="sid-E18DA0E8-BF7A-4535-8D88-3D9BA9AFFB3C" sourceRef="mgr_check" targetRef="endEvent"></sequenceFlow>
+    <sequenceFlow id="sid-E0E22DB1-5796-4414-B97C-6BF453EB036E" sourceRef="startEvent" targetRef="emp_submit"></sequenceFlow>
+    <sequenceFlow id="sid-3F53D320-4DD1-46A2-BB39-9D33F7AA46D0" sourceRef="emp_submit" targetRef="mgr_check"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_leave_process">
+    <bpmndi:BPMNPlane bpmnElement="leave_process" id="BPMNPlane_leave_process">
+      <bpmndi:BPMNShape bpmnElement="startEvent" id="BPMNShape_startEvent">
+        <omgdc:Bounds height="30.0" width="30.0" x="105.0" y="146.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="emp_submit" id="BPMNShape_emp_submit">
+        <omgdc:Bounds height="80.0" width="100.0" x="240.0" y="121.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="mgr_check" id="BPMNShape_mgr_check">
+        <omgdc:Bounds height="80.0" width="100.0" x="483.5" y="121.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="endEvent" id="BPMNShape_endEvent">
+        <omgdc:Bounds height="28.0" width="28.0" x="750.5" y="147.5"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-E18DA0E8-BF7A-4535-8D88-3D9BA9AFFB3C" id="BPMNEdge_sid-E18DA0E8-BF7A-4535-8D88-3D9BA9AFFB3C">
+        <omgdi:waypoint x="583.5" y="161.5"></omgdi:waypoint>
+        <omgdi:waypoint x="750.5" y="161.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-E0E22DB1-5796-4414-B97C-6BF453EB036E" id="BPMNEdge_sid-E0E22DB1-5796-4414-B97C-6BF453EB036E">
+        <omgdi:waypoint x="135.0" y="161.5"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="161.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3F53D320-4DD1-46A2-BB39-9D33F7AA46D0" id="BPMNEdge_sid-3F53D320-4DD1-46A2-BB39-9D33F7AA46D0">
+        <omgdi:waypoint x="340.0" y="161.5"></omgdi:waypoint>
+        <omgdi:waypoint x="483.5" y="161.5"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

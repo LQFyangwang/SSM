@@ -1,0 +1,145 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace填写mapper映射文件关联的dao接口类（全限定名） -->
+<mapper namespace="com.gs.dao.ProductDAO">
+
+    <!--
+        CRUD
+        C: create insert   <insert></insert>
+        R: retrieve select <select></select>
+        U: update   update <update></update>
+        D: delete   delete <delete></delete>
+
+        如果返回类型为resultType时，java对象的属性应和数据库表里的各字段保持一致，这样在查出结果后mybatis会将Map里面的键值对取出赋给resultType所指定的对象对应的属性。
+    -->
+
+    <!-- id唯一与dao接口里的方法名保持一致 -->
+    <select id="listAll" resultType="product">
+        <![CDATA[
+          select * from t_product
+        ]]>
+    </select>
+
+    <select id="getById" parameterType="integer" resultType="product">
+        <![CDATA[
+          select * from t_product where id = #{id}
+        ]]>
+    </select>
+
+    <select id="getByIdTitle" resultType="product">
+        <![CDATA[
+          select * from t_product where id = #{i} and title = #{title}
+        ]]>
+    </select>
+
+    <!-- 如果只有一个参数，并且这个参数是自定义的对象，则可以添加parameterType为该参数的全限定名
+        或者可以不配置，mybatis能够自动识别
+     -->
+    <insert id="save" parameterType="com.gs.bean.Product">
+        <![CDATA[
+          insert into t_product(title, des, price)
+          values(#{title}, #{des}, #{price})
+        ]]>
+    </insert>
+
+    <insert id="save1">
+        <![CDATA[
+          insert into t_product(title, des, price)
+          values(#{title}, #{product.des}, #{product.price})
+        ]]>
+    </insert>
+
+    <update id="update" parameterType="com.gs.bean.Product">
+        <!--
+        <![CDATA[
+          update t_product set title = #{title}, des = #{des}, price = #{price}
+          where id = #{id}
+        ]]>
+        -->
+        <!-- 根据参数值来确定需要更新哪些字段 -->
+        update t_product
+        <set>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="des != null and des != ''">
+                des = #{des},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+
+    <delete id="removeById" parameterType="integer">
+         <![CDATA[
+          delete from t_product where id = #{id}
+        ]]>
+    </delete>
+
+    <select id="listByCriteria" resultType="product">
+        <!--
+        select * from t_product where 1 = 1
+        <if test="title != null and title != ''">
+            and title = #{title}
+        </if>
+        <if test="des != null and des != ''">
+            and des = #{des}
+        </if>
+        -->
+        select * from t_product
+        <where>
+            <if test="title != null and title != ''">
+                and title like concat('%', #{title}, '%')
+            </if>
+            <if test="des != null and des != ''">
+                and des like concat('%', #{des}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="listByIds" resultType="product">
+        select * from t_product where id in
+        <!-- foreach循环，in语句部分把数组或list参数转成in语句逗号分割的形式
+         如果是数组，则collection为array
+         如果是list，则collection为list
+
+         如果有多个参数，其中一个参数是数组或list，并且需要使用foreach的情况，则collection
+         需要写明参数的名称
+         -->
+        <foreach collection="array" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+    <insert id="batchSave">
+        insert into t_product(title, des, price) values
+        <!-- seperator只用于分割集合中的对象 -->
+        <foreach collection="list" separator="," item="product">
+            (#{product.title}, #{product.des}, #{product.price})
+        </foreach>
+    </insert>
+
+    <update id="batchUpdate">
+        <foreach collection="list" separator=";" item="product">
+            update t_product
+            <set>
+                <if test="product.title != null and product.title != ''">
+                    title = #{product.title},
+                </if>
+                <if test="product.des != null and product.des != ''">
+                    des = #{product.des},
+                </if>
+                <if test="product.price != null">
+                    price = #{product.price},
+                </if>
+            </set>
+            where id = #{product.id}
+        </foreach>
+    </update>
+
+</mapper>

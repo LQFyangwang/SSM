@@ -1,0 +1,15 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace填写mapper映射文件关联的dao接口类（全限定名） -->
+<mapper namespace="com.gs.dao.ProcessDAO">
+    <insert id="save">
+        insert into t_process(name, path) VALUES(#{name}, #{path})
+    </insert>
+
+    <select id="listAll" resultType="process">
+        select * from t_process
+    </select>
+
+</mapper>
